@@ -1,51 +1,56 @@
 # sorts.py
 # Autor: Arturo Yepez
-# DESCRIPCION: Archivo donde se implementa el algoritmo Mergesort, para ellos dependemos de Merge
+# DESCRIPCION: Archivo donde se implementa el algoritmo Mergesort e InsertionSort, para ellos 
+#	dependemos de Merge.
 
+#====================================================================================================
+# LIBRERIAS
+#====================================================================================================
 import sys
 
 #====================================================================================================
 # MERGE
 #====================================================================================================
-def merge(A: list, p: int, q: int, r: int) -> list:
-	# Declaramos los tamaños de los nuevos arreglos
-	n = q - p * 1
+def Merge(A: list, p: int, q: int, r: int) -> list:
+	n = q - p + 1
 	m = r - q
-	
-	# Se crean dos arreglos nuevos que luego hacen merge
+
+	# Creamos los arreglos de almacenamiento provisionales que luego haran Merge
 	L = []
 	R = []
 
-	# Asigna a los valores de L y R las mitades de A
-	for i in range(0,n+1):
-		L.append(A[i]) 
-	for i in range(0,m+1):
-		R.append(A[m + i])
+	# Asignamos los valores de A en estos arreglos provisionales L y R
+	for i in range(0,n):
+		L.append(A[p+i])
+	for i in range (0,m):
+		R.append(A[q+i+1])
 
 	# Creamos los sentinelas
 	L.append(sys.maxsize)
 	R.append(sys.maxsize)
-	assert(len(L) == n+1 and len(R) == m+1)
 
-	# Ordenamos ambos arreglos L y R en el arreglo principal A
-	i, j = 1, 1
+	# Ordenamos los elementos de los arreglos provisionales de vuelta en A
+	i, j = 0, 0
 	for k in range(p, r+1):
 		if (L[i]<=R[j]):
 			A[k] = L[i]
 			i += 1
-		else
+		else:
 			A[k] = R[j]
 			j += 1
+	return A
+
 
 #====================================================================================================
 # MERGESORT
 #====================================================================================================
-def mergesort(A: list, p: int, r: int) -> list:
-	if (p<= r):
+def MergeSort(A: list, p: int, r: int) -> list:
+	if (p < r):
 		q = (p+r)//2
-		mergesort(A, p, q)
-		mergesort(A, q+1, r)
-		merge(A, p, q, r)
+		MergeSort(A, p, q)
+		MergeSort(A, q+1, r)
+		Merge(A, p, q, r)
+	return A
 
 #====================================================================================================
 # ORDENAMIENTO POR INSERCIÓN
